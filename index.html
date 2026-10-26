@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카이스트월즈승부의신 | 월즈 2026 스위스 스테이지 예측</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{
+  --bg:#F4F7FC; --surface:#FFFFFF; --ink:#0F1D3F; --ink2:#56627E; --muted:#9AA3B8; --line:#E1E7F2; --stripe:#EEF2F9;
+  --band:#0F1D3F; --band-ink:#FFFFFF; --accent:#1FC2EA; --pale:#D9E6FF; --ok:#0B8A73; --bad:#C9354B; --hi:#DDF5FC;
+  --pill31:#0F1D3F; --pill31-ink:#FFFFFF; color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0A0F1E; --surface:#121A2E; --ink:#E7ECF7; --ink2:#A3AEC6; --muted:#69748F; --line:#24304A; --stripe:#0F1628;
+    --band:#121A2E; --band-ink:#E7ECF7; --accent:#2BC8EE; --pale:#22375F; --ok:#3CCB9F; --bad:#FF6B7D; --hi:#0E2A38;
+    --pill31:#E7ECF7; --pill31-ink:#0A0F1E; color-scheme: dark;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  font-variant-numeric:tabular-nums;word-break:keep-all;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{background:var(--band);color:var(--band-ink);padding:28px 0 22px}
+header h1{font-size:clamp(22px,5vw,32px);font-weight:800;letter-spacing:-0.5px;line-height:1.25}
+header .sub{margin-top:8px;font-size:14px;opacity:.82}
+header .links{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;border:1px solid transparent}
+.btn.primary{background:var(--accent);color:#0F1D3F}
+.btn.ghost{border-color:rgba(255,255,255,.35);color:var(--band-ink)}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px}
+nav.tabs button{flex:1;background:none;border:0;padding:14px 6px 12px;font:inherit;font-size:15px;font-weight:700;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+main{padding:22px 0 60px}
+section.panel{display:none;scroll-margin-top:64px} section.panel.on{display:block}
+h2{font-size:20px;font-weight:800;margin:26px 0 10px;letter-spacing:-0.3px}
+h2:first-child{margin-top:4px}
+h3{font-size:16px;font-weight:800;margin:18px 0 6px}
+p.desc{color:var(--ink2);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.grid{display:grid;gap:10px}
+@media (min-width:640px){.grid.two{grid-template-columns:1fr 1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:999px;background:var(--stripe);font-size:13px;font-weight:600;color:var(--ink)}
+.chip.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.chip.dead{color:var(--bad);text-decoration:line-through;background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.match{display:flex;flex-direction:column;gap:8px}
+.mrow{display:flex;justify-content:space-between;font-weight:800;font-size:16px}
+.mrow small{font-weight:600;color:var(--ink2);font-size:12px;margin-left:6px}
+.bar{height:8px;border-radius:999px;background:var(--pale);overflow:hidden;display:flex}
+.bar i{display:block;background:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.tbl th{background:var(--band);color:var(--band-ink);font-size:13px;font-weight:700;padding:11px 6px;white-space:nowrap}
+.tbl th:first-child{text-align:left;padding-left:14px}
+.tbl td{text-align:center;padding:9px 6px;font-size:15px;border-top:1px solid var(--line)}
+.tbl tbody tr:nth-child(even) td{background:var(--stripe)}
+.tbl td.team{text-align:left;padding-left:14px}
+.tn{font-weight:800;font-size:16px} .ts{font-size:12px;color:var(--ink2);font-weight:600;margin-top:2px}
+.up{color:var(--ok)} .down{color:var(--bad)}
+.tbl td.na{color:var(--muted)} .tbl td.adv{font-weight:800}
+.tbl tr.cut td{border-bottom:3px solid var(--accent)}
+.tbl tr.below td{color:var(--ink2)}
+.pill{display:inline-block;min-width:46px;padding:3px 0;border-radius:999px;font-size:13px;font-weight:800}
+.p30{background:var(--accent);color:#0F1D3F} .p31{background:var(--pill31);color:var(--pill31-ink)} .p32{background:var(--pale);color:var(--ink)} .pout{color:var(--muted);font-weight:700}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.note{font-size:12.5px;color:var(--ink2);margin-top:8px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.ptop{display:flex;align-items:center;gap:12px}
+.rank{font-size:24px;font-weight:800;width:28px;text-align:center}
+.pname{font-size:18px;font-weight:800;flex:1;min-width:0;overflow-wrap:anywhere}
+.plink{font-size:13px;font-weight:700;color:var(--ink2);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:999px;white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kpi{background:var(--stripe);border-radius:10px;padding:10px 12px}
+.kpi b{display:block;font-size:22px;font-weight:800;line-height:1.15}
+.kpi span{font-size:12px;color:var(--ink2);font-weight:600}
+.minor{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:var(--ink2)}
+.lbl{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px}
+.rule{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.steps{counter-reset:s;display:grid;gap:8px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step::before{counter-increment:s;content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#0F1D3F;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step b{display:block;font-size:15px} .step span{font-size:13.5px;color:var(--ink2)}
+ul.clean{list-style:none;display:grid;gap:8px}
+ul.clean li{font-size:14px;padding-left:14px;position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.wt{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;font-size:14px}
+.wbar{grid-column:1/-1;height:6px;border-radius:999px;background:var(--stripe);overflow:hidden;margin-bottom:6px}
+.wbar i{display:block;height:100%;background:var(--accent)}
+.tier{display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--pale);font-size:12px;font-weight:800;text-align:center;line-height:22px;margin-right:8px}
+.rlist{display:grid;gap:6px}
+.ritem{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.ritem .t{font-weight:800} .ritem .w{font-size:12.5px;color:var(--ink2);grid-column:2/4}
+.ritem .e{font-weight:800;font-size:15px}
+@media (max-width:480px){
+  .tbl th{font-size:12px;padding:10px 3px} .tbl th:first-child{padding-left:10px}
+  .tbl td{font-size:14px;padding:8px 3px} .tbl td.team{padding-left:10px}
+  .tn{font-size:15px} .ts{font-size:11px;white-space:nowrap} .pill{min-width:38px;font-size:12px}
+  .pname.long{font-size:15.5px}
+}
+.ts{white-space:nowrap}
+.mrow .r small{margin:0 6px 0 0}
+.slist{display:grid;gap:8px}
+.sitem{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sitem b{display:block;font-size:15px;margin-bottom:6px}
+
+.cheer-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.cheer-row{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.cbtn{position:relative;border:0;border-radius:14px;padding:14px 8px 12px;min-height:88px;cursor:pointer;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+.cbtn.a{background:var(--accent);color:#0F1D3F}
+.cbtn.b{background:var(--pill31);color:var(--pill31-ink)}
+.cbtn .tag{font-size:22px;font-weight:800;letter-spacing:-0.3px}
+.cbtn .cnt{font-size:15px;font-weight:700;opacity:.85}
+.cbtn:active{transform:scale(.96)}
+.cbtn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.cbtn .plus{position:absolute;top:6px;right:10px;font-size:15px;font-weight:800;pointer-events:none;animation:rise .7s ease-out forwards}
+@keyframes rise{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-22px)}}
+.cbtn.pop{animation:pop .22s ease-out}
+@keyframes pop{50%{transform:scale(1.06)}}
+.vs{align-self:center;font-size:13px;font-weight:800;color:var(--ink2)}
+.tug{height:10px;border-radius:999px;background:var(--pill31);overflow:hidden}
+.tug i{display:block;height:100%;background:var(--accent);transition:width .3s ease}
+.cmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink2);font-weight:600}
+.cheer-status{margin-top:8px;font-size:13px;font-weight:600;color:var(--bad)}
+a.btn:focus-visible,.plink:focus-visible,nav.tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.cbtn,.cbtn.pop,.cbtn .plus,.tug i{animation:none!important;transition:none!important}}
+footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>카이스트월즈승부의신<br>월즈 2026 스위스 스테이지 예측</h1>
+  <p class="sub" id="upd"></p>
+  <div class="links"><a class="btn primary" id="leagueLink" target="_blank" rel="noopener">승부의신 Pick'Ems 열기</a></div>
+</div></header>
+<nav class="tabs" role="tablist"><div class="wrap">
+  <button role="tab" data-tab="predict" aria-selected="true">예측</button>
+  <button role="tab" data-tab="league" aria-selected="false">승부의신</button>
+  <button role="tab" data-tab="method" aria-selected="false">분석 방법</button>
+</div></nav>
+<main class="wrap">
+<section class="panel on" id="sec-predict">
+  <h2>다음 경기 응원하기</h2>
+  <p class="desc">팀 이름을 누를 때마다 응원 수가 1씩 올라가요. 이 페이지를 연 모든 사람의 응원이 합쳐져요.</p>
+  <p class="cheer-status" id="cheerStatus" hidden></p>
+  <div class="grid two" id="cheer" style="margin-top:12px"></div>
+  <p class="note">응원 수는 재미로 보는 숫자이고, 예측 확률에는 반영되지 않아요.</p>
+  <h2>지금까지 확정된 결과</h2>
+  <div class="chips" id="done"></div>
+  <h2>남은 3R 경기 승률</h2>
+  <div class="grid two" id="rem"></div>
+  <h2>팀별 최종 전적 확률 (%)</h2>
+  <p class="desc">진출 확률 순으로 정렬했어요. 파란 선 위 8팀이 진출 예상 팀이고, "예상"은 실제 슬롯 수(3-0 2팀, 3-1 3팀, 3-2 3팀)에 맞춰 맞힐 확률이 가장 높게 배정한 전적이에요.</p>
+  <div class="scroll" style="margin-top:10px"><table class="tbl" id="ptable"><thead><tr><th>팀</th><th>3-0</th><th>3-1</th><th>3-2</th><th>진출</th><th>예상</th></tr></thead><tbody></tbody></table></div>
+  <p class="note">팀 이름 아래는 현재 전적과 레이팅, 괄호는 대회 시작 전 대비 레이팅 변동이에요. "–"는 이미 불가능해진 전적이에요.</p>
+</section>
+<section class="panel" id="sec-league">
+  <h2>승부의신 점수 기댓값</h2>
+  <p class="desc">스위스 스테이지가 끝났을 때의 예상 점수예요. 현재 점수는 플레이인 점수만 들어간 상태이고, 스위스 점수는 10월 31일에 한꺼번에 반영돼요.</p>
+  <div class="rule"><span class="chip">진출 팀 적중 +10</span><span class="chip">보너스 칸 승패 기록 적중 +15</span><span class="chip">스위스 최대 125점</span></div>
+  <div class="grid" id="cards" style="margin-top:14px"></div>
+  <p class="note">1위 확률은 공동 1위를 포함해서 합이 100%를 넘어요. "응원하면 좋은 결과"는 남은 3R 경기 결과에 따라 각자의 1위 확률이 어떻게 바뀌는지 보여줘요.</p>
+</section>
+<section class="panel" id="sec-method">
+  <h2>분석 흐름</h2>
+  <div class="card steps">
+    <div class="step"><div><b>자료 조사</b><span>2026 시즌 자국 리그와 국제대회 성적, 최근 3년 월즈 성적, 전문가 평가, 우승 배당, 로스터 이슈를 모았어요.</span></div></div>
+    <div class="step"><div><b>사전 레이팅 결정</b><span>자료를 종합해 16팀의 강함을 레이팅(평균 1500)으로 정했어요. 공식으로 자동 계산한 게 아니라 근거를 보고 판단한 값이에요.</span></div></div>
+    <div class="step"><div><b>승률 변환</b><span>레이팅 차이를 세트 승률로 바꾸고, 단판과 Bo3 승률을 각각 계산해요.</span></div></div>
+    <div class="step"><div><b>월즈 결과로 업데이트</b><span>본선 경기가 끝날 때마다 Elo 방식으로 레이팅을 조금씩 고쳐요.</span></div></div>
+    <div class="step"><div><b>남은 일정 시뮬레이션</b><span>스위스 규칙대로 남은 대진 추첨과 경기를 수십만 번 반복해요.</span></div></div>
+    <div class="step"><div><b>픽 채점</b><span>시뮬레이션 한 판마다 6명의 픽을 실제 배점대로 채점해서 평균을 내요.</span></div></div>
+  </div>
+
+  <h2>사용한 자료와 기준 시점</h2>
+  <div class="card"><ul class="clean">
+    <li><b>2026 시즌 자국 리그</b>: LCK(컵, 정규 시즌, 플레이오프), LPL(1~3스플릿, 선발전), LEC(Versus, Spring, Summer), LCS, LCP, CBLOL</li>
+    <li><b>2026 국제대회</b>: First Stand, MSI, EWC</li>
+    <li><b>최근 3년 월즈</b>: 2023~2025 스위스와 토너먼트 성적</li>
+    <li><b>전문가와 시장 평가</b>: DPM 파워랭킹, Polymarket과 Tips.GG 우승 배당 (10월 중순 기준)</li>
+    <li><b>로스터 이슈</b>: TES 탑 ZUIAN 비자 문제로 369 출전(10/6), AL 탑 Breathe 영입(7/22), CFO 로스터 재건</li>
+    <li><b>사전 조사 기준일</b>: 2026년 10월 18일까지 공개된 자료</li>
+    <li><b>월즈 본선 결과</b>: 1R(10/23), 2R(10/24), 3R은 IG–HLE, TES–G2, DK–MKOI(2-0), GEN–LYON(2-1)까지 반영</li>
+    <li><b>승부의신 점수</b>: 플레이인 점수만 반영된 현재 순위표 기준</li>
+  </ul></div>
+
+  <h2>사전 레이팅과 근거</h2>
+  <p class="desc">대회 시작 전 레이팅이에요. 100점 차이면 세트 승률 약 64%, 단판 약 62%, Bo3 약 70%예요.</p>
+  <div class="rlist" id="r0" style="margin-top:10px"></div>
+
+  <h2>레이팅을 정할 때의 반영 비중</h2>
+  <p class="desc">수치로 학습한 가중치가 아니라, 판단할 때 어떤 근거를 얼마나 무겁게 봤는지 정리한 거예요.</p>
+  <div class="card wt" id="weights" style="margin-top:10px"></div>
+
+  <h2>승률 계산 방식</h2>
+  <div class="card"><ul class="clean">
+    <li><b>세트 승률</b>: 레이팅 차이를 로지스틱 함수로 변환해요.</li>
+    <li><b>단판 이변 보정</b>: 단판은 레이팅 차이를 15% 줄여서 계산해요. 예를 들어 GEN vs LOS는 세트 승률 90%지만 단판은 87%예요.</li>
+    <li><b>Bo3 승률</b>: 세트 승률 p로 p²(3−2p)를 계산해요. 강팀일수록 Bo3에서 더 유리해져요.</li>
+    <li><b>상성 보정 4가지</b>: TES vs LCK 팀(최근 국제대회 LCK 상대 시리즈 9전 전패), BLG vs G2(상대 전적 BLG 압도), GEN vs HLE(최근 Bo5 3연승), LYON vs G2(MSI 3-0)만 별도로 반영했어요.</li>
+  </ul></div>
+
+  <h2>월즈 결과 반영 방식</h2>
+  <div class="card"><ul class="clean">
+    <li>경기마다 예상보다 잘하면 오르고 못하면 내려가요. 이변일수록 많이 움직여요.</li>
+    <li>한 판으로 시즌 평가가 뒤집히지 않도록 세트당 최대 약 26점만 움직이게 했어요.</li>
+    <li>Bo3는 세트 단위로 반영해요. 2-0은 두 세트 승리, 2-1은 두 세트 승리와 한 세트 패배로 계산해요.</li>
+  </ul></div>
+
+  <h2>스위스 시뮬레이션 규칙</h2>
+  <div class="card"><ul class="clean">
+    <li>같은 전적 팀끼리만 붙고, 이미 만난 팀과는 다시 붙지 않아요.</li>
+    <li>대진은 재대결이 없는 조합 중에서 무작위로 뽑아요. 이미 발표된 대진은 그대로 써요.</li>
+    <li>진출이나 탈락이 걸린 경기는 Bo3, 나머지는 단판이에요.</li>
+    <li>남은 일정을 50만~80만 번 반복해서 확률을 구해요.</li>
+  </ul></div>
+
+  <h2>요소별 영향력 (민감도)</h2>
+  <p class="desc">모델 설정을 하나씩 바꿔서 다시 돌렸을 때 결과가 얼마나 움직이는지예요. 많이 움직일수록 중요한 요소예요.</p>
+  <div class="slist" id="sens" style="margin-top:10px"></div>
+  <p class="note">지금 시점에서는 팀 간 실력 차를 얼마나 크게 보느냐와, 월즈 결과를 얼마나 강하게 반영하느냐가 가장 큰 변수예요. 상성 보정과 단판 이변 보정은 영향이 작아요. 어떤 설정이든 승부의신 1위 경쟁 구도는 거의 그대로예요.</p>
+
+  <h2>한계</h2>
+  <div class="card"><ul class="clean">
+    <li>사전 레이팅은 판단에 기반한 값이라, 보는 사람에 따라 다를 수 있어요.</li>
+    <li>밴픽, 진영, 패치 메타, 선수 컨디션은 직접 반영하지 않고 팀 성적을 통해서만 간접적으로 반영돼요.</li>
+    <li>스위스는 대진 운의 영향이 커서, 확률이 높아도 결과가 다르게 나올 수 있어요.</li>
+  </ul></div>
+</section>
+</main>
+<footer>Claude가 만든 비공식 팬 분석 페이지예요. 승부의신(Pick'Ems)과 Riot Games와는 관련이 없어요.</footer>
+<script>
+const D = {"updated": "2026년 10월 26일", "scope": "3R 4경기(IG–HLE, TES–G2, DK–MKOI, GEN–LYON)까지 반영", "event_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "cheer_ns": "kaistworlds26-mnmaevgx", "league_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "pred": [["GEN", "3-0", 1686, "+13", "100.0", "–", "–", "100.0", "3-0"], ["DK", "3-0", 1588, "+44", "100.0", "–", "–", "100.0", "3-0"], ["T1", "1-1", 1611, "−11", "–", "57.7", "24.5", "82.2", "3-1"], ["IG", "2-1", 1527, "+18", "–", "53.7", "26.1", "79.8", "3-1"], ["BLG", "1-1", 1619, "−12", "–", "47.9", "30.4", "78.3", "3-2"], ["LYON", "2-1", 1516, "+28", "–", "50.5", "23.8", "74.4", "3-1"], ["TES", "2-1", 1490, "+25", "–", "44.4", "28.6", "73.0", "3-2"], ["HLE", "1-2", 1634, "−23", "–", "–", "60.3", "60.3", "3-2"], ["MKOI", "2-1", 1426, "+13", "–", "30.5", "21.4", "51.9", "탈락"], ["KC", "1-1", 1453, "+6", "–", "12.7", "21.1", "33.8", "탈락"], ["AL", "0-2", 1561, "−34", "–", "–", "27.9", "27.9", "탈락"], ["G2", "1-2", 1509, "−21", "–", "–", "24.2", "24.2", "탈락"], ["CFO", "1-1", 1317, "+8", "–", "2.7", "4.5", "7.1", "탈락"], ["TLAW", "0-2", 1431, "−25", "–", "–", "3.4", "3.4", "탈락"], ["TSW", "0-2", 1352, "−18", "–", "–", "3.1", "3.1", "탈락"], ["LOS", "0-2", 1281, "−11", "–", "–", "0.7", "0.7", "탈락"]], "remaining": [{"a": "KC", "b": "BLG", "fmt": "Bo1", "pa": 30.8}, {"a": "T1", "b": "CFO", "fmt": "Bo1", "pa": 80.8}, {"a": "LOS", "b": "TSW", "fmt": "Bo3", "pa": 35.1}, {"a": "TLAW", "b": "AL", "fmt": "Bo3", "pa": 24.3}], "league": [{"name": "2620231712375872", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 T1", "live"], ["3-2 HLE", "live"]], "cur": 5, "locked": 35, "adv": 59.7, "bon": 32.7, "fin": 97.4, "p1": 52.1, "full": {"bonus": [["GEN", "3-0"], ["T1", "3-1"], ["HLE", "3-2"]], "rest": ["DK", "G2", "BLG", "TES", "IG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/5627971259961294302/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 65.8, "pb": 46.0}, {"a": "T1", "b": "CFO", "pa": 59.2, "pb": 21.9}, {"a": "LOS", "b": "TSW", "pa": 52.6, "pb": 51.9}, {"a": "TLAW", "b": "AL", "pa": 58.7, "pb": 50.0}]}, {"name": "곽곽우", "me": true, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 54.7, "bon": 22.2, "fin": 96.9, "p1": 46.6, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["HLE", "T1", "AL", "G2", "LYON"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4477398468001647820/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 20.7, "pb": 58.0}, {"a": "T1", "b": "CFO", "pa": 43.0, "pb": 61.5}, {"a": "LOS", "b": "TSW", "pa": 47.0, "pb": 46.3}, {"a": "TLAW", "b": "AL", "pa": 39.6, "pb": 48.8}]}, {"name": "겸 황", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 47.6, "bon": 22.2, "fin": 89.8, "p1": 7.2, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["T1", "HLE", "AL", "G2", "TLAW"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3030341245688047257/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 1.2, "pb": 9.8}, {"a": "T1", "b": "CFO", "pa": 7.0, "pb": 7.9}, {"a": "LOS", "b": "TSW", "pa": 7.3, "pb": 7.1}, {"a": "TLAW", "b": "AL", "pa": 9.6, "pb": 6.4}]}, {"name": "전에만난슈팅스타", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 AL", "dead"], ["3-2 G2", "live"]], "cur": 20, "locked": 35, "adv": 50.7, "bon": 18.6, "fin": 89.3, "p1": 17.3, "full": {"bonus": [["GEN", "3-0"], ["AL", "3-1"], ["G2", "3-2"]], "rest": ["DK", "HLE", "T1", "KC", "BLG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/1848918874293110469/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 34.9, "pb": 9.3}, {"a": "T1", "b": "CFO", "pa": 16.6, "pb": 19.8}, {"a": "LOS", "b": "TSW", "pa": 16.6, "pb": 17.5}, {"a": "TLAW", "b": "AL", "pa": 14.9, "pb": 17.9}]}, {"name": "눈나아아아", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 HLE", "dead"], ["3-2 T1", "live"]], "cur": 20, "locked": 25, "adv": 45.3, "bon": 18.7, "fin": 83.9, "p1": 8.0, "full": {"bonus": [["GEN", "3-0"], ["HLE", "3-1"], ["T1", "3-2"]], "rest": ["BLG", "G2", "AL", "CFO", "TES"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4337079080872316190/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 11.8, "pb": 6.3}, {"a": "T1", "b": "CFO", "pa": 5.0, "pb": 21.1}, {"a": "LOS", "b": "TSW", "pa": 7.9, "pb": 8.1}, {"a": "TLAW", "b": "AL", "pa": 6.8, "pb": 8.4}]}, {"name": "ANGsony", "me": false, "picks": [["3-0 HLE", "dead"], ["3-1 T1", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 20, "adv": 54.6, "bon": 8.7, "fin": 83.2, "p1": 3.8, "full": {"bonus": [["HLE", "3-0"], ["T1", "3-1"], ["DK", "3-2"]], "rest": ["GEN", "BLG", "AL", "TES", "G2"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3272539422908303103/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 6.8, "pb": 2.4}, {"a": "T1", "b": "CFO", "pa": 4.7, "pb": 0.0}, {"a": "LOS", "b": "TSW", "pa": 3.8, "pb": 3.8}, {"a": "TLAW", "b": "AL", "pa": 1.2, "pb": 4.6}]}], "sens": [{"name": "기본 모델", "me": 46.5, "rival": 52.2, "team": "GEN", "delta": 0.0}, {"name": "상성 보정 제외", "me": 46.2, "rival": 51.7, "team": "G2", "delta": 1.1}, {"name": "단판 이변 보정 제외", "me": 46.7, "rival": 53.1, "team": "T1", "delta": 1.4}, {"name": "대회 중 레이팅 업데이트 제외", "me": 47.7, "rival": 52.2, "team": "LYON", "delta": -5.2}, {"name": "대회 중 업데이트 2배", "me": 45.4, "rival": 51.7, "team": "LYON", "delta": 5.5}, {"name": "팀 간 실력 차 20% 축소", "me": 46.0, "rival": 48.6, "team": "HLE", "delta": -6.1}], "r0": [{"t": "GEN", "elo": 1674, "tier": "S", "why": "LCK 컵·정규 시즌 우승, 우승 배당 1위. 다만 FST 4강, EWC 3위로 국제전은 아쉬움"}, {"t": "HLE", "elo": 1656, "tier": "S", "why": "MSI 우승. LCK 결승에서는 GEN에 1-3으로 두 번 패배"}, {"t": "BLG", "elo": 1630, "tier": "A", "why": "LPL 1·2스플릿과 FST 우승, MSI 준우승, 3스플릿 준우승"}, {"t": "T1", "elo": 1622, "tier": "A", "why": "올해 우승은 없지만 월즈 3연패(23~25). MSI 5~6위, EWC 4위"}, {"t": "AL", "elo": 1596, "tier": "A", "why": "LPL 3스플릿 우승(1시드). 1·2스플릿은 4위, 25년 월즈 8강"}, {"t": "DK", "elo": 1543, "tier": "B", "why": "EWC 우승(BLG·GEN 격파). LCK 4위로 기복이 큼"}, {"t": "G2", "elo": 1530, "tier": "B", "why": "LEC 3개 대회 전부 우승, FST 준우승, MSI 4위. EWC는 조별 탈락"}, {"t": "IG", "elo": 1509, "tier": "B", "why": "LPL 4시드. 3스플릿 플레이오프 3위, 올해 국제전 기록 없음"}, {"t": "LYON", "elo": 1488, "tier": "C", "why": "MSI 3위(G2 3-0, HLE와 풀세트). LCS 서머 결승 준우승"}, {"t": "TES", "elo": 1465, "tier": "C", "why": "시즌 내내 부진(MSI 7~8위). 탑 ZUIAN 비자 문제로 369 출전"}, {"t": "TLAW", "elo": 1457, "tier": "C", "why": "LCS 서머 우승, MSI 플레이인에서 KC 3-0"}, {"t": "KC", "elo": 1448, "tier": "C", "why": "EWC 준우승(AL·T1 격파), 월즈 플레이인 통과. 기복이 큼"}, {"t": "MKOI", "elo": 1413, "tier": "D", "why": "LEC 서머 준우승. 국제전에서 약하다는 평가"}, {"t": "TSW", "elo": 1370, "tier": "D", "why": "LCP 3개 스플릿 우승, MSI에서 TES 업셋"}, {"t": "CFO", "elo": 1309, "tier": "E", "why": "25년 8강 멤버 대부분이 떠나 재건한 로스터"}, {"t": "LOS", "elo": 1292, "tier": "E", "why": "CBLOL 우승. 선수 4명이 월즈 첫 출전"}]};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+$("#upd").textContent = `${D.updated} 업데이트, ${D.scope}`;
+$("#leagueLink").href = D.league_url;
+// tabs with shareable hash
+function show(id){
+  document.querySelectorAll("section.panel").forEach(s=>s.classList.toggle("on", s.id==="sec-"+id));
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===id));
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{show(b.dataset.tab); history.replaceState(null,"","#"+b.dataset.tab);}));
+const fromHash=()=>{const h=location.hash.slice(1); if(["predict","league","method"].includes(h)) show(h);};
+fromHash(); window.addEventListener("hashchange", fromHash);
+// predictions
+const adv = Object.fromEntries(D.pred.map(r=>[r[0], r[7]]));
+const exact = Object.fromEntries(D.pred.map(r=>[r[0], {"3-0":r[4],"3-1":r[5],"3-2":r[6]}]));
+$("#done").innerHTML = D.pred.filter(r=>r[7]==="100.0").map(r=>`<span class="chip ok">${r[0]} ${r[1]} 진출 ✓</span>`).join("");
+$("#rem").innerHTML = D.remaining.map(m=>{
+  const pa=m.pa, pb=(100-m.pa).toFixed(1);
+  return `<div class="card match"><div class="mrow"><span>${m.a}<small>${pa}%</small></span><span style="font-size:12px;color:var(--ink2);font-weight:700">${m.fmt}</span><span class="r"><small>${pb}%</small>${m.b}</span></div><div class="bar"><i style="width:${pa}%"></i></div></div>`;
+}).join("");
+const pillC = {"3-0":"p30","3-1":"p31","3-2":"p32"};
+$("#ptable tbody").innerHTML = D.pred.map((r,i)=>{
+  const cls = i===7 ? "cut" : (i>7 ? "below" : "");
+  const dc = r[3].startsWith("+") ? "up" : "down";
+  const num = v => v==="–" ? `<td class="na">–</td>` : `<td>${v}</td>`;
+  const pill = pillC[r[8]] ? `<span class="pill ${pillC[r[8]]}">${r[8]}</span>` : `<span class="pout">${r[8]}</span>`;
+  return `<tr class="${cls}"><td class="team"><div class="tn">${r[0]}</div><div class="ts">${r[1]}&nbsp;&nbsp;${r[2]} <span class="${dc}">(${r[3]})</span></div></td>${num(r[4])}${num(r[5])}${num(r[6])}<td class="adv">${r[7]}</td><td>${pill}</td></tr>`;
+}).join("");
+// league
+$("#cards").innerHTML = D.league.map((p,i)=>{
+  const st = Object.fromEntries(p.picks.map(([lab,s])=>[lab,s]));
+  const bonus = p.full.bonus.map(([t,rec])=>{
+    const lab = `${rec} ${t}`, s = st[lab];
+    if (s==="ok") return `<span class="chip ok">${lab} ✓</span>`;
+    if (s==="dead") return `<span class="chip dead">${lab}</span>`;
+    return `<span class="chip">${lab} <span style="color:var(--ink2)">${exact[t][rec]}%</span></span>`;
+  }).join("");
+  const rest = p.full.rest.map(t=> adv[t]==="100.0" ? `<span class="chip ok">${t} ✓</span>` : `<span class="chip">${t} <span style="color:var(--ink2)">${adv[t]}%</span></span>`).join("");
+  const roots = p.root.map(m=>({m, d:m.pa-m.pb})).filter(x=>Math.abs(x.d)>=2).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d))
+    .map(x=>`<span class="chip">${x.d>0?x.m.a:x.m.b} 승 <span class="up">+${Math.abs(x.d).toFixed(1)}%p</span></span>`).join("") || `<span class="chip">남은 3R은 영향 거의 없음</span>`;
+  return `<div class="pcard">
+    <div class="ptop"><span class="rank">${i+1}</span><div class="pname${p.name.length>12?" long":""}">${esc(p.name)}</div><a class="plink" href="${p.url}" target="_blank" rel="noopener">픽 보기</a></div>
+    <div class="kpis"><div class="kpi"><b>${p.fin}</b><span>최종 기대 점수</span></div><div class="kpi"><b>${p.p1}%</b><span>1위 확률</span></div></div>
+    <div class="minor"><span>현재 ${p.cur}점</span><span>스위스 확정 +${p.locked}점</span><span>진출 기대 ${p.adv}</span><span>보너스 기대 ${p.bon}</span></div>
+    <div><div class="lbl">보너스 칸 (전적까지 맞힐 확률)</div><div class="chips">${bonus}</div></div>
+    <div><div class="lbl">나머지 진출 픽 (진출 확률)</div><div class="chips">${rest}</div></div>
+    <div><div class="lbl">응원하면 좋은 결과 (1위 확률 변화)</div><div class="chips">${roots}</div></div>
+  </div>`;
+}).join("");
+// method
+$("#r0").innerHTML = D.r0.map(r=>`<div class="ritem"><span class="tier">${r.tier}</span><span class="t">${r.t}</span><span class="e">${r.elo}</span><span class="w">${esc(r.why)}</span></div>`).join("");
+const W = [["2026 국제대회 성적 (FST, MSI, EWC)","높음",90],["2026 자국 리그 성적","높음",85],["최근 폼과 로스터 변화","중간",60],
+           ["전문가 파워랭킹과 우승 배당 (교차 검증용)","중간",55],["최근 3년 월즈 성적","낮음~중간",40],["상대 전적과 상성 (4가지만 별도 보정)","낮음",25]];
+$("#weights").innerHTML = W.map(([k,v,w])=>`<span>${k}</span><b>${v}</b><div class="wbar"><i style="width:${w}%"></i></div>`).join("");
+$("#sens").innerHTML = D.sens.map(s=>`<div class="sitem"><b>${s.name}</b><div class="chips"><span class="chip">곽곽우 1위 ${s.me.toFixed(1)}%</span><span class="chip">2620231712375872 1위 ${s.rival.toFixed(1)}%</span><span class="chip">${s.delta===0?"비교 기준":`진출 확률 최대 변화: ${s.team} ${s.delta>0?"+":"−"}${Math.abs(s.delta).toFixed(1)}%p`}</span></div></div>`).join("");
+
+// ---- cheer counters (shared via a public counter API, falls back to this screen only) ----
+const CH = {api:"https://abacus.jasoncameron.dev", ns:D.cheer_ns};
+const cheer = {}; let online = true; const lastHit = {};
+const keyOf = (m,t) => `r3-${m.a}-${m.b}-${t}`.toLowerCase();
+async function cget(k){
+  try{ const r = await fetch(`${CH.api}/get/${CH.ns}/${k}`, {cache:"no-store"});
+       if (r.status===404) return 0; if (!r.ok) throw new Error(r.status); return (await r.json()).value||0; }
+  catch(e){ return null; }
+}
+async function chit(k){
+  try{ const r = await fetch(`${CH.api}/hit/${CH.ns}/${k}`, {cache:"no-store"}); if (!r.ok) throw new Error(r.status); return (await r.json()).value; }
+  catch(e){ return null; }
+}
+function setOffline(){
+  if (!online) return; online = false;
+  const el = $("#cheerStatus"); el.hidden = false;
+  el.textContent = "응원 서버에 연결하지 못했어요. 지금은 이 화면에서만 집계돼요.";
+}
+function paintCheer(){
+  D.remaining.forEach((m,i)=>{
+    const ca = cheer[keyOf(m,m.a)]||0, cb = cheer[keyOf(m,m.b)]||0, tot = ca+cb;
+    document.getElementById(`cnt-${i}-a`).textContent = `응원 ${ca.toLocaleString()}`;
+    document.getElementById(`cnt-${i}-b`).textContent = `응원 ${cb.toLocaleString()}`;
+    document.getElementById(`tug-${i}`).style.width = (tot ? ca/tot*100 : 50) + "%";
+    document.getElementById(`share-${i}`).textContent = tot ? `응원 비율 ${Math.round(ca/tot*100)} : ${100-Math.round(ca/tot*100)}` : "아직 응원이 없어요";
+  });
+}
+$("#cheer").innerHTML = D.remaining.map((m,i)=>`
+  <div class="cheer-card">
+    <div class="cheer-row">
+      <button class="cbtn a" data-i="${i}" data-side="a" aria-label="${m.a} 응원하기"><span class="tag">${m.a}</span><span class="cnt" id="cnt-${i}-a">응원 0</span></button>
+      <span class="vs">${m.fmt}</span>
+      <button class="cbtn b" data-i="${i}" data-side="b" aria-label="${m.b} 응원하기"><span class="tag">${m.b}</span><span class="cnt" id="cnt-${i}-b">응원 0</span></button>
+    </div>
+    <div class="tug"><i id="tug-${i}" style="width:50%"></i></div>
+    <div class="cmeta"><span id="share-${i}">아직 응원이 없어요</span><span>모델 예상 ${m.pa>=50?m.a:m.b} ${m.pa>=50?m.pa:(100-m.pa).toFixed(1)}%</span></div>
+  </div>`).join("");
+document.querySelectorAll(".cbtn").forEach(btn=>btn.addEventListener("click", async ()=>{
+  const m = D.remaining[+btn.dataset.i], team = btn.dataset.side==="a" ? m.a : m.b, k = keyOf(m,team);
+  const now = Date.now(); if (lastHit[k] && now-lastHit[k] < 300) return; lastHit[k] = now;
+  cheer[k] = (cheer[k]||0) + 1; paintCheer();
+  btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
+  const p = document.createElement("span"); p.className="plus"; p.textContent="+1"; btn.appendChild(p); setTimeout(()=>p.remove(), 700);
+  if (online){ const v = await chit(k); if (v===null) setOffline(); else { cheer[k] = Math.max(v, cheer[k]); paintCheer(); } }
+}));
+async function loadCheer(){
+  if (!online) return;
+  const keys = D.remaining.flatMap(m=>[keyOf(m,m.a), keyOf(m,m.b)]);
+  const vals = await Promise.all(keys.map(cget));
+  if (vals.some(v=>v===null)) { setOffline(); return; }
+  keys.forEach((k,j)=>{ cheer[k] = Math.max(vals[j], cheer[k]||0); }); paintCheer();
+}
+paintCheer(); loadCheer();
+setInterval(()=>{ if (document.visibilityState==="visible") loadCheer(); }, 30000);
+</script>
+</body>
+</html>
