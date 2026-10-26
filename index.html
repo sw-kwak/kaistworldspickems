@@ -124,7 +124,8 @@ ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
 .tug{height:10px;border-radius:999px;background:var(--pill31);overflow:hidden}
 .tug i{display:block;height:100%;background:var(--accent);transition:width .3s ease}
 .cmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink2);font-weight:600}
-.cheer-status{margin-top:8px;font-size:13px;font-weight:600;color:var(--bad)}
+.cheer-status{margin-top:8px;font-size:13px;font-weight:600;color:var(--bad)} .cheer-status[data-state="busy"]{color:var(--ink2)}
+.retry{margin-left:4px;font:inherit;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid currentColor;background:none;color:inherit;cursor:pointer}
 a.btn:focus-visible,.plink:focus-visible,nav.tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion: reduce){.cbtn,.cbtn.pop,.cbtn .plus,.tug i{animation:none!important;transition:none!important}}
 footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
@@ -145,12 +146,12 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
 <section class="panel on" id="sec-predict">
   <h2>다음 경기 응원하기</h2>
   <p class="desc">팀 이름을 누를 때마다 응원 수가 1씩 올라가요. 이 페이지를 연 모든 사람의 응원이 합쳐져요.</p>
-  <p class="cheer-status" id="cheerStatus" hidden></p>
+  <div class="cheer-status" id="cheerStatus" hidden><span id="cheerMsg"></span> <button class="retry" id="cheerRetry" type="button">다시 연결</button></div>
   <div class="grid two" id="cheer" style="margin-top:12px"></div>
   <p class="note">응원 수는 재미로 보는 숫자이고, 예측 확률에는 반영되지 않아요.</p>
   <h2>지금까지 확정된 결과</h2>
   <div class="chips" id="done"></div>
-  <h2>남은 3R 경기 승률</h2>
+  <h2 id="remTitle">다음 경기 승률</h2>
   <div class="grid two" id="rem"></div>
   <h2>팀별 최종 전적 확률 (%)</h2>
   <p class="desc">진출 확률 순으로 정렬했어요. 파란 선 위 8팀이 진출 예상 팀이고, "예상"은 실제 슬롯 수(3-0 2팀, 3-1 3팀, 3-2 3팀)에 맞춰 맞힐 확률이 가장 높게 배정한 전적이에요.</p>
@@ -162,7 +163,7 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
   <p class="desc">스위스 스테이지가 끝났을 때의 예상 점수예요. 현재 점수는 플레이인 점수만 들어간 상태이고, 스위스 점수는 10월 31일에 한꺼번에 반영돼요.</p>
   <div class="rule"><span class="chip">진출 팀 적중 +10</span><span class="chip">보너스 칸 승패 기록 적중 +15</span><span class="chip">스위스 최대 125점</span></div>
   <div class="grid" id="cards" style="margin-top:14px"></div>
-  <p class="note">1위 확률은 공동 1위를 포함해서 합이 100%를 넘어요. "응원하면 좋은 결과"는 남은 3R 경기 결과에 따라 각자의 1위 확률이 어떻게 바뀌는지 보여줘요.</p>
+  <p class="note">1위 확률은 공동 1위를 포함해서 합이 100%를 넘어요. "응원하면 좋은 결과"는 다음 경기 결과에 따라 각자의 1위 확률이 어떻게 바뀌는지 보여줘요.</p>
 </section>
 <section class="panel" id="sec-method">
   <h2>분석 흐름</h2>
@@ -183,7 +184,7 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
     <li><b>전문가와 시장 평가</b>: DPM 파워랭킹, Polymarket과 Tips.GG 우승 배당 (10월 중순 기준)</li>
     <li><b>로스터 이슈</b>: TES 탑 ZUIAN 비자 문제로 369 출전(10/6), AL 탑 Breathe 영입(7/22), CFO 로스터 재건</li>
     <li><b>사전 조사 기준일</b>: 2026년 10월 18일까지 공개된 자료</li>
-    <li><b>월즈 본선 결과</b>: 1R(10/23), 2R(10/24), 3R은 IG–HLE, TES–G2, DK–MKOI(2-0), GEN–LYON(2-1)까지 반영</li>
+    <li><b>월즈 본선 결과</b>: <span id="resultsScope"></span></li>
     <li><b>승부의신 점수</b>: 플레이인 점수만 반영된 현재 순위표 기준</li>
   </ul></div>
 
@@ -233,7 +234,7 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:24px 0 40px}
 </main>
 <footer>Claude가 만든 비공식 팬 분석 페이지예요. 승부의신(Pick'Ems)과 Riot Games와는 관련이 없어요.</footer>
 <script>
-const D = {"updated": "2026년 10월 26일", "scope": "3R 4경기(IG–HLE, TES–G2, DK–MKOI, GEN–LYON)까지 반영", "event_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "cheer_ns": "kaistworlds26-mnmaevgx", "league_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "pred": [["GEN", "3-0", 1686, "+13", "100.0", "–", "–", "100.0", "3-0"], ["DK", "3-0", 1588, "+44", "100.0", "–", "–", "100.0", "3-0"], ["T1", "1-1", 1611, "−11", "–", "57.7", "24.5", "82.2", "3-1"], ["IG", "2-1", 1527, "+18", "–", "53.7", "26.1", "79.8", "3-1"], ["BLG", "1-1", 1619, "−12", "–", "47.9", "30.4", "78.3", "3-2"], ["LYON", "2-1", 1516, "+28", "–", "50.5", "23.8", "74.4", "3-1"], ["TES", "2-1", 1490, "+25", "–", "44.4", "28.6", "73.0", "3-2"], ["HLE", "1-2", 1634, "−23", "–", "–", "60.3", "60.3", "3-2"], ["MKOI", "2-1", 1426, "+13", "–", "30.5", "21.4", "51.9", "탈락"], ["KC", "1-1", 1453, "+6", "–", "12.7", "21.1", "33.8", "탈락"], ["AL", "0-2", 1561, "−34", "–", "–", "27.9", "27.9", "탈락"], ["G2", "1-2", 1509, "−21", "–", "–", "24.2", "24.2", "탈락"], ["CFO", "1-1", 1317, "+8", "–", "2.7", "4.5", "7.1", "탈락"], ["TLAW", "0-2", 1431, "−25", "–", "–", "3.4", "3.4", "탈락"], ["TSW", "0-2", 1352, "−18", "–", "–", "3.1", "3.1", "탈락"], ["LOS", "0-2", 1281, "−11", "–", "–", "0.7", "0.7", "탈락"]], "remaining": [{"a": "KC", "b": "BLG", "fmt": "Bo1", "pa": 30.8}, {"a": "T1", "b": "CFO", "fmt": "Bo1", "pa": 80.8}, {"a": "LOS", "b": "TSW", "fmt": "Bo3", "pa": 35.1}, {"a": "TLAW", "b": "AL", "fmt": "Bo3", "pa": 24.3}], "league": [{"name": "2620231712375872", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 T1", "live"], ["3-2 HLE", "live"]], "cur": 5, "locked": 35, "adv": 59.7, "bon": 32.7, "fin": 97.4, "p1": 52.1, "full": {"bonus": [["GEN", "3-0"], ["T1", "3-1"], ["HLE", "3-2"]], "rest": ["DK", "G2", "BLG", "TES", "IG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/5627971259961294302/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 65.8, "pb": 46.0}, {"a": "T1", "b": "CFO", "pa": 59.2, "pb": 21.9}, {"a": "LOS", "b": "TSW", "pa": 52.6, "pb": 51.9}, {"a": "TLAW", "b": "AL", "pa": 58.7, "pb": 50.0}]}, {"name": "곽곽우", "me": true, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 54.7, "bon": 22.2, "fin": 96.9, "p1": 46.6, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["HLE", "T1", "AL", "G2", "LYON"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4477398468001647820/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 20.7, "pb": 58.0}, {"a": "T1", "b": "CFO", "pa": 43.0, "pb": 61.5}, {"a": "LOS", "b": "TSW", "pa": 47.0, "pb": 46.3}, {"a": "TLAW", "b": "AL", "pa": 39.6, "pb": 48.8}]}, {"name": "겸 황", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 47.6, "bon": 22.2, "fin": 89.8, "p1": 7.2, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["T1", "HLE", "AL", "G2", "TLAW"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3030341245688047257/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 1.2, "pb": 9.8}, {"a": "T1", "b": "CFO", "pa": 7.0, "pb": 7.9}, {"a": "LOS", "b": "TSW", "pa": 7.3, "pb": 7.1}, {"a": "TLAW", "b": "AL", "pa": 9.6, "pb": 6.4}]}, {"name": "전에만난슈팅스타", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 AL", "dead"], ["3-2 G2", "live"]], "cur": 20, "locked": 35, "adv": 50.7, "bon": 18.6, "fin": 89.3, "p1": 17.3, "full": {"bonus": [["GEN", "3-0"], ["AL", "3-1"], ["G2", "3-2"]], "rest": ["DK", "HLE", "T1", "KC", "BLG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/1848918874293110469/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 34.9, "pb": 9.3}, {"a": "T1", "b": "CFO", "pa": 16.6, "pb": 19.8}, {"a": "LOS", "b": "TSW", "pa": 16.6, "pb": 17.5}, {"a": "TLAW", "b": "AL", "pa": 14.9, "pb": 17.9}]}, {"name": "눈나아아아", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 HLE", "dead"], ["3-2 T1", "live"]], "cur": 20, "locked": 25, "adv": 45.3, "bon": 18.7, "fin": 83.9, "p1": 8.0, "full": {"bonus": [["GEN", "3-0"], ["HLE", "3-1"], ["T1", "3-2"]], "rest": ["BLG", "G2", "AL", "CFO", "TES"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4337079080872316190/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 11.8, "pb": 6.3}, {"a": "T1", "b": "CFO", "pa": 5.0, "pb": 21.1}, {"a": "LOS", "b": "TSW", "pa": 7.9, "pb": 8.1}, {"a": "TLAW", "b": "AL", "pa": 6.8, "pb": 8.4}]}, {"name": "ANGsony", "me": false, "picks": [["3-0 HLE", "dead"], ["3-1 T1", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 20, "adv": 54.6, "bon": 8.7, "fin": 83.2, "p1": 3.8, "full": {"bonus": [["HLE", "3-0"], ["T1", "3-1"], ["DK", "3-2"]], "rest": ["GEN", "BLG", "AL", "TES", "G2"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3272539422908303103/6795887864503967728", "root": [{"a": "KC", "b": "BLG", "pa": 6.8, "pb": 2.4}, {"a": "T1", "b": "CFO", "pa": 4.7, "pb": 0.0}, {"a": "LOS", "b": "TSW", "pa": 3.8, "pb": 3.8}, {"a": "TLAW", "b": "AL", "pa": 1.2, "pb": 4.6}]}], "sens": [{"name": "기본 모델", "me": 46.5, "rival": 52.2, "team": "GEN", "delta": 0.0}, {"name": "상성 보정 제외", "me": 46.2, "rival": 51.7, "team": "G2", "delta": 1.1}, {"name": "단판 이변 보정 제외", "me": 46.7, "rival": 53.1, "team": "T1", "delta": 1.4}, {"name": "대회 중 레이팅 업데이트 제외", "me": 47.7, "rival": 52.2, "team": "LYON", "delta": -5.2}, {"name": "대회 중 업데이트 2배", "me": 45.4, "rival": 51.7, "team": "LYON", "delta": 5.5}, {"name": "팀 간 실력 차 20% 축소", "me": 46.0, "rival": 48.6, "team": "HLE", "delta": -6.1}], "r0": [{"t": "GEN", "elo": 1674, "tier": "S", "why": "LCK 컵·정규 시즌 우승, 우승 배당 1위. 다만 FST 4강, EWC 3위로 국제전은 아쉬움"}, {"t": "HLE", "elo": 1656, "tier": "S", "why": "MSI 우승. LCK 결승에서는 GEN에 1-3으로 두 번 패배"}, {"t": "BLG", "elo": 1630, "tier": "A", "why": "LPL 1·2스플릿과 FST 우승, MSI 준우승, 3스플릿 준우승"}, {"t": "T1", "elo": 1622, "tier": "A", "why": "올해 우승은 없지만 월즈 3연패(23~25). MSI 5~6위, EWC 4위"}, {"t": "AL", "elo": 1596, "tier": "A", "why": "LPL 3스플릿 우승(1시드). 1·2스플릿은 4위, 25년 월즈 8강"}, {"t": "DK", "elo": 1543, "tier": "B", "why": "EWC 우승(BLG·GEN 격파). LCK 4위로 기복이 큼"}, {"t": "G2", "elo": 1530, "tier": "B", "why": "LEC 3개 대회 전부 우승, FST 준우승, MSI 4위. EWC는 조별 탈락"}, {"t": "IG", "elo": 1509, "tier": "B", "why": "LPL 4시드. 3스플릿 플레이오프 3위, 올해 국제전 기록 없음"}, {"t": "LYON", "elo": 1488, "tier": "C", "why": "MSI 3위(G2 3-0, HLE와 풀세트). LCS 서머 결승 준우승"}, {"t": "TES", "elo": 1465, "tier": "C", "why": "시즌 내내 부진(MSI 7~8위). 탑 ZUIAN 비자 문제로 369 출전"}, {"t": "TLAW", "elo": 1457, "tier": "C", "why": "LCS 서머 우승, MSI 플레이인에서 KC 3-0"}, {"t": "KC", "elo": 1448, "tier": "C", "why": "EWC 준우승(AL·T1 격파), 월즈 플레이인 통과. 기복이 큼"}, {"t": "MKOI", "elo": 1413, "tier": "D", "why": "LEC 서머 준우승. 국제전에서 약하다는 평가"}, {"t": "TSW", "elo": 1370, "tier": "D", "why": "LCP 3개 스플릿 우승, MSI에서 TES 업셋"}, {"t": "CFO", "elo": 1309, "tier": "E", "why": "25년 8강 멤버 대부분이 떠나 재건한 로스터"}, {"t": "LOS", "elo": 1292, "tier": "E", "why": "CBLOL 우승. 선수 4명이 월즈 첫 출전"}]};
+const D = {"updated": "2026년 10월 26일", "scope": "3R 종료, 4R 대진까지 반영", "round_label": "4R", "cheer_round": "r4", "results_scope": "1R(10/23), 2R(10/24), 3R(10/25~26) 전체 결과와 4R 대진까지 반영", "event_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "cheer_ns": "kaistworlds26-mnmaevgx", "league_url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488", "pred": [["GEN", "3-0", 1686, "+13", "100.0", "–", "–", "100.0", "3-0"], ["DK", "3-0", 1588, "+44", "100.0", "–", "–", "100.0", "3-0"], ["T1", "2-1", 1616, "−6", "–", "84.2", "11.0", "95.1", "3-1"], ["BLG", "2-1", 1627, "−3", "–", "76.8", "16.1", "92.9", "3-1"], ["IG", "2-1", 1527, "+18", "–", "52.4", "29.4", "81.8", "3-1"], ["LYON", "2-1", 1516, "+28", "–", "47.6", "27.9", "75.5", "3-2"], ["TES", "2-1", 1490, "+25", "–", "23.2", "43.5", "66.6", "3-2"], ["HLE", "1-2", 1634, "−23", "–", "–", "60.2", "60.2", "3-2"], ["MKOI", "2-1", 1426, "+13", "–", "15.8", "29.0", "44.8", "탈락"], ["TLAW", "1-2", 1465, "+9", "–", "–", "33.1", "33.1", "탈락"], ["KC", "1-2", 1445, "−3", "–", "–", "29.2", "29.2", "탈락"], ["G2", "1-2", 1509, "−21", "–", "–", "14.0", "14.0", "탈락"], ["LOS", "1-2", 1311, "+19", "–", "–", "3.6", "3.6", "탈락"], ["CFO", "1-2", 1312, "+3", "–", "–", "3.1", "3.1", "탈락"], ["AL", "0-3", 1527, "−68", "–", "–", "–", "0.0", "탈락"], ["TSW", "0-3", 1321, "−48", "–", "–", "–", "0.0", "탈락"]], "remaining": [{"a": "TES", "b": "BLG", "fmt": "Bo3", "pa": 23.3}, {"a": "IG", "b": "LYON", "fmt": "Bo3", "pa": 52.3}, {"a": "MKOI", "b": "T1", "fmt": "Bo3", "pa": 15.8}, {"a": "KC", "b": "CFO", "fmt": "Bo3", "pa": 76.3}, {"a": "TLAW", "b": "LOS", "fmt": "Bo3", "pa": 79.5}, {"a": "HLE", "b": "G2", "fmt": "Bo3", "pa": 74.8}], "league": [{"name": "2620231712375872", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 T1", "live"], ["3-2 HLE", "live"]], "cur": 5, "locked": 35, "adv": 61.1, "bon": 36.6, "fin": 102.7, "p1": 61.7, "full": {"bonus": [["GEN", "3-0"], ["T1", "3-1"], ["HLE", "3-2"]], "rest": ["DK", "G2", "BLG", "TES", "IG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/5627971259961294302/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 86.8, "pb": 54.3}, {"a": "IG", "b": "LYON", "pa": 65.5, "pb": 57.9}, {"a": "MKOI", "b": "T1", "pa": 17.3, "pb": 70.1}, {"a": "KC", "b": "CFO", "pa": 61.0, "pb": 64.5}, {"a": "TLAW", "b": "LOS", "pa": 61.0, "pb": 65.0}, {"a": "HLE", "b": "G2", "pa": 76.1, "pb": 19.6}]}, {"name": "곽곽우", "me": true, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 53.8, "bon": 26.5, "fin": 100.3, "p1": 50.6, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["HLE", "T1", "AL", "G2", "LYON"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4477398468001647820/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 7.2, "pb": 63.6}, {"a": "IG", "b": "LYON", "pa": 35.6, "pb": 66.8}, {"a": "MKOI", "b": "T1", "pa": 64.2, "pb": 48.0}, {"a": "KC", "b": "CFO", "pa": 51.6, "pb": 47.1}, {"a": "TLAW", "b": "LOS", "pa": 50.6, "pb": 50.1}, {"a": "HLE", "b": "G2", "pa": 45.6, "pb": 65.2}]}, {"name": "겸 황", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 BLG", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 35, "adv": 49.5, "bon": 26.5, "fin": 96.0, "p1": 24.0, "full": {"bonus": [["GEN", "3-0"], ["BLG", "3-1"], ["DK", "3-2"]], "rest": ["T1", "HLE", "AL", "G2", "TLAW"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3030341245688047257/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 4.4, "pb": 29.5}, {"a": "IG", "b": "LYON", "pa": 22.3, "pb": 25.2}, {"a": "MKOI", "b": "T1", "pa": 28.0, "pb": 22.9}, {"a": "KC", "b": "CFO", "pa": 24.1, "pb": 22.3}, {"a": "TLAW", "b": "LOS", "pa": 29.4, "pb": 1.7}, {"a": "HLE", "b": "G2", "pa": 21.5, "pb": 30.3}]}, {"name": "전에만난슈팅스타", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 AL", "dead"], ["3-2 G2", "live"]], "cur": 20, "locked": 35, "adv": 49.1, "bon": 17.1, "fin": 86.2, "p1": 5.3, "full": {"bonus": [["GEN", "3-0"], ["AL", "3-1"], ["G2", "3-2"]], "rest": ["DK", "HLE", "T1", "KC", "BLG"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/1848918874293110469/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 10.6, "pb": 3.7}, {"a": "IG", "b": "LYON", "pa": 4.3, "pb": 6.5}, {"a": "MKOI", "b": "T1", "pa": 7.6, "pb": 4.9}, {"a": "KC", "b": "CFO", "pa": 6.5, "pb": 1.7}, {"a": "TLAW", "b": "LOS", "pa": 5.3, "pb": 5.6}, {"a": "HLE", "b": "G2", "pa": 0.8, "pb": 18.7}]}, {"name": "ANGsony", "me": false, "picks": [["3-0 HLE", "dead"], ["3-1 T1", "live"], ["3-2 DK", "dead"]], "cur": 20, "locked": 20, "adv": 52.9, "bon": 12.6, "fin": 85.5, "p1": 1.3, "full": {"bonus": [["HLE", "3-0"], ["T1", "3-1"], ["DK", "3-2"]], "rest": ["GEN", "BLG", "AL", "TES", "G2"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/3272539422908303103/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 5.3, "pb": 0.0}, {"a": "IG", "b": "LYON", "pa": 0.0, "pb": 2.6}, {"a": "MKOI", "b": "T1", "pa": 0.0, "pb": 1.5}, {"a": "KC", "b": "CFO", "pa": 1.4, "pb": 0.6}, {"a": "TLAW", "b": "LOS", "pa": 1.3, "pb": 0.9}, {"a": "HLE", "b": "G2", "pa": 1.0, "pb": 1.9}]}, {"name": "눈나아아아", "me": false, "picks": [["3-0 GEN", "ok"], ["3-1 HLE", "dead"], ["3-2 T1", "live"]], "cur": 20, "locked": 25, "adv": 43.2, "bon": 16.6, "fin": 79.8, "p1": 2.1, "full": {"bonus": [["GEN", "3-0"], ["HLE", "3-1"], ["T1", "3-2"]], "rest": ["BLG", "G2", "AL", "CFO", "TES"]}, "url": "https://lolesports.com/ko-KR/lolesports/pickems/115660540725177488/picks/4337079080872316190/6795887864503967728", "root": [{"a": "TES", "b": "BLG", "pa": 7.0, "pb": 0.6}, {"a": "IG", "b": "LYON", "pa": 2.1, "pb": 2.1}, {"a": "MKOI", "b": "T1", "pa": 13.0, "pb": 0.1}, {"a": "KC", "b": "CFO", "pa": 2.0, "pb": 2.6}, {"a": "TLAW", "b": "LOS", "pa": 2.1, "pb": 2.3}, {"a": "HLE", "b": "G2", "pa": 1.6, "pb": 3.8}]}], "sens": [{"name": "기본 모델", "me": 50.4, "rival": 61.9, "team": "GEN", "delta": 0.0}, {"name": "상성 보정 제외", "me": 50.3, "rival": 61.9, "team": "G2", "delta": 0.3}, {"name": "단판 이변 보정 제외", "me": 50.0, "rival": 61.8, "team": "TES", "delta": 0.5}, {"name": "대회 중 레이팅 업데이트 제외", "me": 50.8, "rival": 63.4, "team": "TES", "delta": -4.4}, {"name": "대회 중 업데이트 2배", "me": 50.7, "rival": 60.1, "team": "LYON", "delta": 3.8}, {"name": "팀 간 실력 차 20% 축소", "me": 50.9, "rival": 56.4, "team": "HLE", "delta": -7.1}], "r0": [{"t": "GEN", "elo": 1674, "tier": "S", "why": "LCK 컵·정규 시즌 우승, 우승 배당 1위. 다만 FST 4강, EWC 3위로 국제전은 아쉬움"}, {"t": "HLE", "elo": 1656, "tier": "S", "why": "MSI 우승. LCK 결승에서는 GEN에 1-3으로 두 번 패배"}, {"t": "BLG", "elo": 1630, "tier": "A", "why": "LPL 1·2스플릿과 FST 우승, MSI 준우승, 3스플릿 준우승"}, {"t": "T1", "elo": 1622, "tier": "A", "why": "올해 우승은 없지만 월즈 3연패(23~25). MSI 5~6위, EWC 4위"}, {"t": "AL", "elo": 1596, "tier": "A", "why": "LPL 3스플릿 우승(1시드). 1·2스플릿은 4위, 25년 월즈 8강"}, {"t": "DK", "elo": 1543, "tier": "B", "why": "EWC 우승(BLG·GEN 격파). LCK 4위로 기복이 큼"}, {"t": "G2", "elo": 1530, "tier": "B", "why": "LEC 3개 대회 전부 우승, FST 준우승, MSI 4위. EWC는 조별 탈락"}, {"t": "IG", "elo": 1509, "tier": "B", "why": "LPL 4시드. 3스플릿 플레이오프 3위, 올해 국제전 기록 없음"}, {"t": "LYON", "elo": 1488, "tier": "C", "why": "MSI 3위(G2 3-0, HLE와 풀세트). LCS 서머 결승 준우승"}, {"t": "TES", "elo": 1465, "tier": "C", "why": "시즌 내내 부진(MSI 7~8위). 탑 ZUIAN 비자 문제로 369 출전"}, {"t": "TLAW", "elo": 1457, "tier": "C", "why": "LCS 서머 우승, MSI 플레이인에서 KC 3-0"}, {"t": "KC", "elo": 1448, "tier": "C", "why": "EWC 준우승(AL·T1 격파), 월즈 플레이인 통과. 기복이 큼"}, {"t": "MKOI", "elo": 1413, "tier": "D", "why": "LEC 서머 준우승. 국제전에서 약하다는 평가"}, {"t": "TSW", "elo": 1370, "tier": "D", "why": "LCP 3개 스플릿 우승, MSI에서 TES 업셋"}, {"t": "CFO", "elo": 1309, "tier": "E", "why": "25년 8강 멤버 대부분이 떠나 재건한 로스터"}, {"t": "LOS", "elo": 1292, "tier": "E", "why": "CBLOL 우승. 선수 4명이 월즈 첫 출전"}]};
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("#upd").textContent = `${D.updated} 업데이트, ${D.scope}`;
@@ -249,7 +250,10 @@ fromHash(); window.addEventListener("hashchange", fromHash);
 // predictions
 const adv = Object.fromEntries(D.pred.map(r=>[r[0], r[7]]));
 const exact = Object.fromEntries(D.pred.map(r=>[r[0], {"3-0":r[4],"3-1":r[5],"3-2":r[6]}]));
-$("#done").innerHTML = D.pred.filter(r=>r[7]==="100.0").map(r=>`<span class="chip ok">${r[0]} ${r[1]} 진출 ✓</span>`).join("");
+$("#remTitle").textContent = `다음 경기 승률 (${D.round_label})`;
+$("#resultsScope").textContent = D.results_scope;
+$("#done").innerHTML = D.pred.filter(r=>r[7]==="100.0").map(r=>`<span class="chip ok">${r[0]} ${r[1]} 진출 ✓</span>`).join("")
+  + D.pred.filter(r=>r[1].endsWith("-3")).map(r=>`<span class="chip dead" style="text-decoration:none">${r[0]} ${r[1]} 탈락</span>`).join("");
 $("#rem").innerHTML = D.remaining.map(m=>{
   const pa=m.pa, pb=(100-m.pa).toFixed(1);
   return `<div class="card match"><div class="mrow"><span>${m.a}<small>${pa}%</small></span><span style="font-size:12px;color:var(--ink2);font-weight:700">${m.fmt}</span><span class="r"><small>${pb}%</small>${m.b}</span></div><div class="bar"><i style="width:${pa}%"></i></div></div>`;
@@ -273,7 +277,7 @@ $("#cards").innerHTML = D.league.map((p,i)=>{
   }).join("");
   const rest = p.full.rest.map(t=> adv[t]==="100.0" ? `<span class="chip ok">${t} ✓</span>` : `<span class="chip">${t} <span style="color:var(--ink2)">${adv[t]}%</span></span>`).join("");
   const roots = p.root.map(m=>({m, d:m.pa-m.pb})).filter(x=>Math.abs(x.d)>=2).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d))
-    .map(x=>`<span class="chip">${x.d>0?x.m.a:x.m.b} 승 <span class="up">+${Math.abs(x.d).toFixed(1)}%p</span></span>`).join("") || `<span class="chip">남은 3R은 영향 거의 없음</span>`;
+    .map(x=>`<span class="chip">${x.d>0?x.m.a:x.m.b} 승 <span class="up">+${Math.abs(x.d).toFixed(1)}%p</span></span>`).join("") || `<span class="chip">다음 경기는 영향 거의 없음</span>`;
   return `<div class="pcard">
     <div class="ptop"><span class="rank">${i+1}</span><div class="pname${p.name.length>12?" long":""}">${esc(p.name)}</div><a class="plink" href="${p.url}" target="_blank" rel="noopener">픽 보기</a></div>
     <div class="kpis"><div class="kpi"><b>${p.fin}</b><span>최종 기대 점수</span></div><div class="kpi"><b>${p.p1}%</b><span>1위 확률</span></div></div>
@@ -290,32 +294,66 @@ const W = [["2026 국제대회 성적 (FST, MSI, EWC)","높음",90],["2026 자�
 $("#weights").innerHTML = W.map(([k,v,w])=>`<span>${k}</span><b>${v}</b><div class="wbar"><i style="width:${w}%"></i></div>`).join("");
 $("#sens").innerHTML = D.sens.map(s=>`<div class="sitem"><b>${s.name}</b><div class="chips"><span class="chip">곽곽우 1위 ${s.me.toFixed(1)}%</span><span class="chip">2620231712375872 1위 ${s.rival.toFixed(1)}%</span><span class="chip">${s.delta===0?"비교 기준":`진출 확률 최대 변화: ${s.team} ${s.delta>0?"+":"−"}${Math.abs(s.delta).toFixed(1)}%p`}</span></div></div>`).join("");
 
-// ---- cheer counters (shared via a public counter API, falls back to this screen only) ----
+// ---- cheer counters: shared through a public counter API; clicks are queued and retried ----
 const CH = {api:"https://abacus.jasoncameron.dev", ns:D.cheer_ns};
-const cheer = {}; let online = true; const lastHit = {};
-const keyOf = (m,t) => `r3-${m.a}-${m.b}-${t}`.toLowerCase();
-async function cget(k){
-  try{ const r = await fetch(`${CH.api}/get/${CH.ns}/${k}`, {cache:"no-store"});
-       if (r.status===404) return 0; if (!r.ok) throw new Error(r.status); return (await r.json()).value||0; }
-  catch(e){ return null; }
+const server = {}, pending = {}, lastTap = {};
+let state = "connecting", flushing = false;
+const sleep = ms => new Promise(r=>setTimeout(r, ms));
+const keyOf = (m,t) => `${D.cheer_round}-${m.a}-${m.b}-${t}`.toLowerCase();
+async function call(path){
+  const ctrl = new AbortController(), timer = setTimeout(()=>ctrl.abort(), 8000);
+  try{
+    const r = await fetch(`${CH.api}/${path}`, {cache:"no-store", signal:ctrl.signal});
+    clearTimeout(timer);
+    if (r.status===404) return {ok:true, value:0};          // counter not created yet = 0
+    if (r.status===429) return {ok:false, busy:true};       // rate limited
+    if (!r.ok) return {ok:false};
+    const j = await r.json(); return {ok:true, value:(j && typeof j.value==="number") ? j.value : 0};
+  }catch(e){ clearTimeout(timer); return {ok:false, net:true}; }
 }
-async function chit(k){
-  try{ const r = await fetch(`${CH.api}/hit/${CH.ns}/${k}`, {cache:"no-store"}); if (!r.ok) throw new Error(r.status); return (await r.json()).value; }
-  catch(e){ return null; }
+const MSG = {
+  busy:"응원이 몰려서 잠시 기다리는 중이에요. 누른 응원은 모아 뒀다가 자동으로 보내요.",
+  offline:"응원 서버에 연결하지 못했어요. 광고 차단이나 추적 방지 기능이 켜져 있다면 이 사이트에서 꺼주세요. 페이지를 열어 둔 동안에는 누른 응원을 모아 뒀다가 연결되면 자동으로 보내요."
+};
+function setState(s){
+  state = s; const box = $("#cheerStatus");
+  if (s==="online" || s==="connecting"){ box.hidden = true; return; }
+  box.hidden = false; box.dataset.state = s; $("#cheerMsg").textContent = MSG[s];
 }
-function setOffline(){
-  if (!online) return; online = false;
-  const el = $("#cheerStatus"); el.hidden = false;
-  el.textContent = "응원 서버에 연결하지 못했어요. 지금은 이 화면에서만 집계돼요.";
-}
+const shown = k => (server[k]||0) + (pending[k]||0);
 function paintCheer(){
   D.remaining.forEach((m,i)=>{
-    const ca = cheer[keyOf(m,m.a)]||0, cb = cheer[keyOf(m,m.b)]||0, tot = ca+cb;
+    const ca = shown(keyOf(m,m.a)), cb = shown(keyOf(m,m.b)), tot = ca+cb;
     document.getElementById(`cnt-${i}-a`).textContent = `응원 ${ca.toLocaleString()}`;
     document.getElementById(`cnt-${i}-b`).textContent = `응원 ${cb.toLocaleString()}`;
     document.getElementById(`tug-${i}`).style.width = (tot ? ca/tot*100 : 50) + "%";
-    document.getElementById(`share-${i}`).textContent = tot ? `응원 비율 ${Math.round(ca/tot*100)} : ${100-Math.round(ca/tot*100)}` : "아직 응원이 없어요";
+    const pa = tot ? Math.round(ca/tot*100) : 0;
+    document.getElementById(`share-${i}`).textContent = tot ? `응원 비율 ${pa} : ${100-pa}` : "아직 응원이 없어요";
   });
+}
+async function loadCheer(){
+  const keys = D.remaining.flatMap(m=>[keyOf(m,m.a), keyOf(m,m.b)]);
+  let busy=false, net=false;
+  for (const k of keys){                                     // one at a time, to stay under the rate limit
+    const r = await call(`get/${CH.ns}/${k}`);
+    if (r.ok) server[k] = Math.max(r.value, server[k]||0); else if (r.busy) busy = true; else net = true;
+    await sleep(120);
+  }
+  if (net && !busy){ const h = await call("healthcheck"); if (h.ok) net = false; }   // server is up: missing keys just aren't created yet
+  setState(busy ? "busy" : (net ? "offline" : "online")); paintCheer();
+  if (state==="online") flush();
+}
+async function flush(){
+  if (flushing) return; flushing = true;
+  try{
+    for (;;){
+      const k = Object.keys(pending).find(x=>pending[x]>0); if (!k) break;
+      const r = await call(`hit/${CH.ns}/${k}`);
+      if (!r.ok){ setState(r.busy ? "busy" : "offline"); break; }
+      pending[k]--; server[k] = Math.max(r.value, server[k]||0); setState("online"); paintCheer();
+      await sleep(350);
+    }
+  } finally { flushing = false; }
 }
 $("#cheer").innerHTML = D.remaining.map((m,i)=>`
   <div class="cheer-card">
@@ -327,23 +365,19 @@ $("#cheer").innerHTML = D.remaining.map((m,i)=>`
     <div class="tug"><i id="tug-${i}" style="width:50%"></i></div>
     <div class="cmeta"><span id="share-${i}">아직 응원이 없어요</span><span>모델 예상 ${m.pa>=50?m.a:m.b} ${m.pa>=50?m.pa:(100-m.pa).toFixed(1)}%</span></div>
   </div>`).join("");
-document.querySelectorAll(".cbtn").forEach(btn=>btn.addEventListener("click", async ()=>{
+document.querySelectorAll(".cbtn").forEach(btn=>btn.addEventListener("click", ()=>{
   const m = D.remaining[+btn.dataset.i], team = btn.dataset.side==="a" ? m.a : m.b, k = keyOf(m,team);
-  const now = Date.now(); if (lastHit[k] && now-lastHit[k] < 300) return; lastHit[k] = now;
-  cheer[k] = (cheer[k]||0) + 1; paintCheer();
+  const now = Date.now(); if (lastTap[k] && now-lastTap[k] < 300) return; lastTap[k] = now;
+  pending[k] = (pending[k]||0) + 1; paintCheer();
   btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
-  const p = document.createElement("span"); p.className="plus"; p.textContent="+1"; btn.appendChild(p); setTimeout(()=>p.remove(), 700);
-  if (online){ const v = await chit(k); if (v===null) setOffline(); else { cheer[k] = Math.max(v, cheer[k]); paintCheer(); } }
+  const p = document.createElement("span"); p.className = "plus"; p.textContent = "+1"; btn.appendChild(p); setTimeout(()=>p.remove(), 700);
+  flush();
 }));
-async function loadCheer(){
-  if (!online) return;
-  const keys = D.remaining.flatMap(m=>[keyOf(m,m.a), keyOf(m,m.b)]);
-  const vals = await Promise.all(keys.map(cget));
-  if (vals.some(v=>v===null)) { setOffline(); return; }
-  keys.forEach((k,j)=>{ cheer[k] = Math.max(vals[j], cheer[k]||0); }); paintCheer();
-}
+$("#cheerRetry").addEventListener("click", ()=>{ setState("connecting"); loadCheer(); });
+window.addEventListener("online", ()=>loadCheer());
 paintCheer(); loadCheer();
-setInterval(()=>{ if (document.visibilityState==="visible") loadCheer(); }, 30000);
+setInterval(()=>{ if (document.visibilityState==="visible") loadCheer(); }, 45000);
+setInterval(()=>{ if (Object.values(pending).some(v=>v>0)) flush(); }, 10000);
 </script>
 </body>
 </html>
